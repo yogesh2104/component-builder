@@ -1,6 +1,7 @@
 import { z } from "zod";
 import Together from "together-ai";
 import { getSystemPrompt } from "@/lib/prompt";
+import { TOGETHERAIMODEL } from "@/lib/constant";
 
 export async function POST(request: Request) {
     const requestJson = await request.json()
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
     const systemPromt = getSystemPrompt()
 
     const res = await together.chat.completions.create({
-        model:"meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+        model:TOGETHERAIMODEL,
         messages:[
             {
                 role:"system",
