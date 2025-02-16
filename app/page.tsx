@@ -1,210 +1,23 @@
-// "use client"
-
-// import { useEffect, useRef, useState } from "react"
-// import {motion} from "motion/react"
-// import { ShoppingCart, User, Mail, Cloud, LayoutDashboard, MoreHorizontal, Sparkles } from "lucide-react"
-// import { Button } from "@/components/ui/button"
-// import { Input } from "@/components/ui/input"
-// import { Checkbox } from "@/components/ui/checkbox"
-// import CodeViewer from "@/components/code-viewer"
-// import { cn } from "@/lib/utils"
-
-// export default function Page() {
-
-//   const [status, setStatus] = useState<"initial" | "creating" | "created" | "updating" | "updated">("updated");
-//   const [userPrompt,setuserPrompt] = useState("")
-//   const [requestModification, setRequestModification] = useState("") // after generated ui by ai user want some modification then store prompt into this state
-//   const [generatedCode,setGeneratedCode] = useState(`
-//     import React from 'react'
-//     export default function HelloWorld() {
-//       return (
-//         <div className="flex items-center justify-center min-h-screen bg-white text-center">
-//           <h1 className="text-4xl font-bold text-gray-800">Hello World</h1>
-//         </div>
-//       )
-//     }
-//     `)
-//   const [useShadcnui, setUserShadcnui] = useState(false)
-//   const [basicAppSetup, setBasicAppSetup] = useState({
-//     shadcnui:true
-//   }) //basically I have use Shadcnui component so need to track setup
-
-//   const [message,setMessage] = useState<{ role:string , content:string }[]>([])
-
-
-//   const menuItems = [
-//     { icon: <ShoppingCart className="w-4 h-4" />, label: "Product Card",prompt:"Create beautiful product card with mordern look and surprise me." },
-//     { icon: <User className="w-4 h-4" />, label: "User Profile",prompt:"Create beautiful user profile with mordern look and surprise me."  },
-//     { icon: <Mail className="w-4 h-4" />, label: "Contact Form",prompt:"Create beautiful contact form with mordern look and surprise me." },
-//     { icon: <Cloud className="w-4 h-4" />, label: "Weather Widget", prompt:"Create beautiful Weather Widget with mordern look and surprise me." },
-//     { icon: <LayoutDashboard className="w-4 h-4" />, label: "Dashboard",prompt:"Create beautiful Dashboard page with mordern look and surprise me." }
-//   ]
-
-//   return (
-//     <div className={cn(status !== "initial" ? "flex justify-center items-center ":"flex justify-center items-center")}>
-      
-//       {status=="initial" ? 
-//       <div className={"min-h-screen flex flex-col items-end justify-center px-4 py-12"}>
-        
-//         <motion.div
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.6 }}
-//           className="text-center max-w-3xl mx-auto mb-8"
-//         >
-//           <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-//             What component will you build next with{" "}
-//             <span
-//               className="text-red-500 inline-flex items-center bg-white p-2 text-2xl -rotate-3 rounded-md -ml-2" >
-//               Frontend AI <Sparkles className="w-8 h-8 ml-1" />
-//             </span>
-//             ?
-//           </h1>
-//         </motion.div>
-
-//         <motion.div
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.6, delay: 0.2 }}
-//           className="w-full max-w-xl mx-auto mb-12"
-//         >
-//           <div className="relative">
-//             <Input
-//               placeholder="Make a Contact Form"
-//               value={userPrompt}
-//               className="pr-36 h-12 text-lg rounded-full border-neutral-300 focus-visible:outline-0 focus:ring-0"
-//               onChange={(e)=>setuserPrompt(e.target.value)}
-//             />
-//             <Button className="absolute right-1 top-1 bg-red-500 hover:bg-red-600 rounded-full h-10 px-6">
-//               <Sparkles className="w-4 h-4 mr-2" />
-//               Generate
-//             </Button>
-//           </div>
-//           <div className="flex items-center mt-10 gap-2 justify-start">
-//             <Checkbox id="shadcnui" checked={useShadcnui} onCheckedChange={(checked)=>setUserShadcnui(!!checked)} />
-//             <label
-//               htmlFor="shadcnui"
-//               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-//             >
-//               Use Shadncn For basic component?
-//             </label>
-//           </div>
-//         </motion.div>
-
-//         <motion.div
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.6, delay: 0.4 }}
-//           className=" max-w-2xl flex flex-wrap justify-center gap-4"
-//         >
-//           {menuItems.map((item, index) => (
-//             <motion.button
-//               key={item.label}
-//               className="flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 hover:text-black transition-colors hover:shadow-lg"
-//               whileHover={{ scale: 1.05 }}
-//               whileTap={{ scale: 0.95 }}
-//               initial={{ opacity: 0, y: 20 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               transition={{ duration: 0.3, delay: 0.1 * index }}
-//               onClick={()=>setuserPrompt(item?.prompt)}
-//             >
-//               {item.icon}
-//               <span className="text-sm font-medium">{item.label}</span>
-//             </motion.button>
-//           ))}
-//           <motion.button
-//               className="flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 hover:text-black transition-colors hover:shadow-lg"
-//               whileHover={{ scale: 1.05 }}
-//               whileTap={{ scale: 0.95 }}
-//               initial={{ opacity: 0, y: 20 }}
-//               animate={{ opacity: 1, y: 0 }} 
-//             >
-//               <MoreHorizontal className="w-4 h-4" />
-//               <span className="text-sm font-medium">More</span>
-//             </motion.button>
-//         </motion.div>
-
-//       </div>:
-
-//       <div className="mt-5 flex gap-4 text-center max-w-3xl mx-auto mb-8">
-//         <form className="w-full">
-//           <fieldset className="group">
-//             <div className="relative">
-//               <div className="relative flex rounded-md bg-white shadow-sm group-disabled:bg-gray-50">
-//                 <div className="relative flex flex-grow items-stretch">
-//                   <input
-//                     required
-//                     name="modification"
-//                     // value={modification}
-//                     // onChange={(e) => setModification(e.target.value)}
-//                     className="w-full rounded-md bg-transparent px-6 py-2 text-md disabled:cursor-not-allowed text-black outline-none"
-//                     placeholder="Make changes to your app here"
-//                   />
-//                 </div>
-//                 <button
-//                   type="submit"
-//                   // disabled={loading}
-//                   className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-3xl px-3 py-2 text-sm font-semibold text-brand hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand disabled:text-gray-900"
-//                 >
-//                   {/* {loading ? (
-//                     <LoadingDots color="black" style="large" />
-//                   ) : (
-//                     <ArrowLongRightIcon className="-ml-0.5 size-6" />
-//                   )} */}
-//                   submit
-//                 </button>
-//               </div>
-//             </div>
-//           </fieldset>
-//         </form>
-        
-//       </div>
-//       }
-
-//       <div className="h-dvh">
-//         <div className="flex h-full">
-//           <div className={`w-[50vw] hidden h-full overflow-hidden py-5 transition-[width] lg:block`}  >
-//             <div className="ml-4 flex h-full flex-col rounded-l-xl shadow-lg shadow-gray-400/40">
-//               <div className="flex h-full flex-col rounded-l-xl shadow shadow-gray-800/50">
-//                   <CodeViewer code={generatedCode} />
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
-
-
-
 "use client"
 
-import { useState } from "react"
+import { FormEvent, useCallback, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
-import { ShoppingCart, User, Mail, Cloud, LayoutDashboard, MoreHorizontal, Sparkles, ArrowRight, X } from "lucide-react"
+import { ShoppingCart, User, Mail, Cloud, LayoutDashboard, MoreHorizontal, Sparkles, ArrowRight, X, Brain } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import Editor from "@/components/editor"
+import { toast } from "sonner"
+import { Checkbox } from "@/components/ui/checkbox"
 
 export default function Page() {
   const [status, setStatus] = useState<"initial" | "creating" | "created" | "updating" | "updated">("initial")
-  const [activeTab, setActiveTab] = useState<"code" | "preview">("preview");
+  const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [userPrompt, setUserPrompt] = useState("")
   const [requestModification, setRequestModification] = useState("")
-  const [generatedCode, setGeneratedCode] = useState(`
-    import React from 'react'
-    export default function HelloWorld() {
-      return (
-        <div className="flex items-center justify-center min-h-screen bg-white text-center">
-          <h1 className="text-4xl font-bold text-gray-800">Hello World</h1>
-        </div>
-      )
-    }
-  `)
+  const [generatedCode, setGeneratedCode] = useState(``)
   const [message, setMessage] = useState<{ role: string; content: string }[]>([])
+
 
   const suggestedPrompt = [
     {
@@ -223,34 +36,143 @@ export default function Page() {
       prompt: "Create beautiful contact form with modern look and surprise me.",
     },
     {
-      icon: <Cloud className="w-4 h-4" />,
-      label: "Weather Widget",
-      prompt: "Create beautiful Weather Widget with modern look and surprise me.",
+      icon: <Brain className="w-4 h-4" />,
+      label: "Quiz App",
+      prompt: "Make me a quiz app about Indian history. Make sure to give the user an explanation on each question whether they got it right or wrong and keep a score going",
     },
     {
       icon: <LayoutDashboard className="w-4 h-4" />,
-      label: "Dashboard",
-      prompt: "Create beautiful Dashboard page with modern look and surprise me.",
+      label: "Pomodoro Timer",
+      prompt: "Make a beautiful pomodoro timer where I can adjust the lengths of the focus time and the break and it will beep when done.",
     },
   ]
 
-  const handleGenerate = () => {
-    setStatus("creating")
-    // Simulating API call
-    setTimeout(() => {
-      setStatus("created")
-    }, 2000)
-  }
+  const loading = status === "creating" || status === "updating"
 
-  const handleModify = (e: React.FormEvent) => {
+  const handleGenerate = useCallback(async (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+
+    if(status === "creating") return
+    
+    setStatus("creating")
+    setGeneratedCode("")
+    
+    try {
+      const response = await fetch("/api/generate",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+          messages:[{ role:"user", content:userPrompt }],
+        })
+      })
+
+      if(!response.ok){
+        const errorText = await response.text();
+        throw new Error(`Error: ${response.statusText}, ${errorText}`)
+      }
+
+      if(!response.body){
+        throw new Error("No Response Found.")
+      }
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder("utf-8")
+      let done  = false
+
+      while(!done){
+        const { value, done: readerDone } = await reader.read()
+
+        done = readerDone
+
+        if(value){
+          const chunk = decoder.decode(value, { stream:true })
+          setGeneratedCode((pre)=> pre + chunk )
+        }
+      }
+
+      setMessage([ { role: "user", content: userPrompt } ])
+      setStatus("created")
+      setActiveTab("preview")
+    } catch (error) {
+      console.log("error",error)
+      toast.error("An Error occurred while creating the UI.")
+      setStatus("initial")
+      setUserPrompt("")
+    }
+  },[status,userPrompt])
+
+  const handleModify = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault()
+    if(status==="updating") return
+
     setStatus("updating")
-    // Simulating API call
-    setTimeout(() => {
-      setStatus("updated")
+    setActiveTab("code")
+    setGeneratedCode("")
+
+    let codeMessage = {role:"assistant", content: generatedCode }
+    let modificationMessage= { role:"user", content: requestModification }
+
+    setRequestModification("")
+    try {
+      const resposne = await fetch("/api/generate",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+          messages:[...message, codeMessage, modificationMessage]
+        })
+      })
+
+      if(!resposne.ok){
+        const errorText = await resposne.text()
+        throw new Error(`Error ${resposne.statusText},${errorText}`)
+      }
+
+      if(!resposne.body){
+        throw new Error("No Response Body")
+      }
+
+      const reader = resposne.body.getReader()
+      const decoder = new TextDecoder("utf-8")
+      let done = false
+
+      while(!done){
+        const { value , done: readerDone } = await reader.read()
+        done = readerDone
+
+
+        if(value){
+          const chunk = decoder.decode(value, { stream: true })
+          setGeneratedCode((pre)=>pre+chunk)
+        }
+
+        setMessage((preMess)=>[...preMess.slice(-3), codeMessage, modificationMessage])
+        setStatus("updated")
+        setActiveTab("preview")
+      }
+      
+    } catch (error) {
+      console.log("Error while updating", error)
+      toast.error("Error while updating app.")
+      setStatus("initial")
       setRequestModification("")
-    }, 2000)
-  }
+      setUserPrompt("")
+    }
+  
+  },[status, generatedCode,requestModification, message])
+
+
+  const [isMounted , setIsMounted] = useState(false)
+
+  useEffect(()=>{
+    setIsMounted(true)
+  },[])
+
+  if(!isMounted) return null
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gradient-to-br p-4 md:p-8">
@@ -277,21 +199,26 @@ export default function Page() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="relative mt-6 mb-4">
-                  <Input
-                    placeholder="Make a Contact Form"
-                    value={userPrompt}
-                    className="pr-36 h-12 text-lg rounded-full border-neutral-300 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                    onChange={(e) => setUserPrompt(e.target.value)}
-                  />
-                  <Button
-                    className="absolute right-1 top-1 bg-red-500 hover:bg-red-600 rounded-full h-10 px-6"
-                    onClick={handleGenerate}
-                  >
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    Generate
-                  </Button>
-                </div>
+                <form onSubmit={handleGenerate}>
+                  <div className="relative mt-6 mb-4">
+                    <Input
+                      placeholder="Make a Contact Form"
+                      value={userPrompt}
+                      required
+                      disabled={loading}
+                      className="pr-36 h-12 text-lg rounded-full border-neutral-300 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                      onChange={(e) => setUserPrompt(e.target.value)}
+                    />
+                    <Button
+                      className="absolute right-1 top-1 bg-red-500 hover:bg-red-600 rounded-full h-10 px-6"
+                      type="submit"
+                      disabled={loading}
+                    >
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Generate
+                    </Button>
+                  </div>
+                </form>
               </CardContent>
               <CardFooter>
                 <div className="w-full flex flex-wrap justify-center gap-3 mt-6">
@@ -344,6 +271,7 @@ export default function Page() {
                     />
                     <Button
                       type="submit"
+                      variant={"destructive"}
                       className="absolute right-1 top-1.5 rounded-full"
                       disabled={status === "updating"}
                     >
@@ -371,7 +299,7 @@ export default function Page() {
                 code={generatedCode}  
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
-                loading={status}
+                loading={loading}
               />
             </motion.div>
             

@@ -1,15 +1,8 @@
-import { getSystemPrompt } from "@/lib/prompt"
-import { NextRequest, NextResponse } from "next/server"
-import OpenAI from "openai"
-import { z } from "zod"
-import { GeminiComponentBuilderAI } from "@/lib/google-gemini"
+import { z } from "zod";
+import Together from "together-ai";
+import { getSystemPrompt } from "@/lib/prompt";
 
-
-const openaiSdk = new OpenAI({
-    apiKey:process.env.openAIKey,
-})
-
-export async function POST(request:NextRequest) {
+export async function POST(request: Request) {
     const requestJson = await request.json()
     const requestJsonValidation = z.object({
         messages:z.array(
@@ -27,10 +20,11 @@ export async function POST(request:NextRequest) {
 
     const { messages } = requestJsonValidation.data
 
+    const together = new Together({ apiKey: process.env.TOGETHER_API_KEY});
     const systemPromt = getSystemPrompt()
 
-    const messageStream = await openaiSdk.chat.completions.create({
-        model:"gpt-3.5-turbo",
+    const res = await together.chat.completions.create({
+        model:"meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
         messages:[
             {
                 role:"system",
@@ -41,31 +35,26 @@ export async function POST(request:NextRequest) {
                 content:message.role==="user" ? message.content + "\nPlease ONLY return code, NO backticks or language names." : message.content
             }))
         ],
-        temperature:0.2,
-        stream:true
-    })
+        stream: true,
+        temperature: 0.2,
+        max_tokens: 9000,
+    });
 
     const stream = new ReadableStream({
-       async pull(controller){
-        for await (const chunk of messageStream){
-            const text = chunk.choices[0].delta.content
-            if(text){
-                controller.enqueue(text)
-            }
-        }
-        controller.close()
-       } 
-    })
-    
+        async pull(controller){
+         for await (const chunk of res){
+             const text = chunk.choices[0].delta.content
+             if(text){
+                 controller.enqueue(text)
+             }
+         }
+         controller.close()
+        } 
+     })
 
-    return new Response(stream,{
-        headers:{ "Content-Type":"text/event-stream"},
-    })
 
-    // const aiResponse = await GeminiComponentBuilderAI.sendMessage(messages);
-    // const aiResult = JSON.parse(await aiResponse.response.text()).response;
-
-    
+     return new Response(stream,{ headers:{ "Content-Type":"text/event-stream"}})
 }
 
 export const runtime = "edge";
+export const maxDuration = 45;

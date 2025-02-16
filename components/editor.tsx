@@ -12,7 +12,7 @@ export default function Editor({
     activeTab: string;
     onTabChange: (v: "code" | "preview") => void;
     code:string,
-    loading:"initial" | "creating" | "created" | "updating" | "updated"
+    loading:boolean
 }) {
 
   return (
@@ -41,17 +41,12 @@ export default function Editor({
     <div className="flex grow flex-col overflow-y-auto bg-white">
         {activeTab === "code" ? (
         <div >
-            {(loading == "creating" || loading=="updating") ? 
-            <div className="h-[77vh] w-full flex justify-center items-center font-bold text-black animate-pulse">
-                AI is Thinking.
-            </div>
-            :
-            <SyntaxHighlighter code={code} language={"typescript"} />}
+            <SyntaxHighlighter code={code} language={"typescript"} />
             
         </div> ) : (
         <>
-        <div className="h-[77vh] w-full">
-            {(loading == "creating" || loading=="updating") ? 
+        <div className="h-[80vh] w-full">
+            {loading ? 
             <div className="h-full w-full flex justify-center items-center font-bold text-black animate-pulse">
                 AI is Thinking.
             </div>
