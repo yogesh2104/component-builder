@@ -1,5 +1,10 @@
 "use client";
 import dynamic from "next/dynamic";
+import { Button } from "./ui/button";
+import { Loader2, Share } from "lucide-react";
+import { useState } from "react";
+import { shareApp } from "@/app/action";
+import { toast } from "sonner";
 const SyntaxHighlighter = dynamic(() => import("@/components/syntax-highlighter"),{ ssr: false });
 const CodeViewer = dynamic(() => import("@/components/code-viewer"),{ ssr: false });
 
@@ -7,13 +12,35 @@ export default function Editor({
   activeTab,
   onTabChange,
   code,
-  loading
+  loading,
+  message
 }: {
     activeTab: string;
     onTabChange: (v: "code" | "preview") => void;
-    code:string,
-    loading:boolean
+    code:string;
+    loading:boolean;
+    message:{role: string; content: string}[]
 }) {
+
+    const [isPublish,setIsPublish] = useState(false)
+
+
+    const handlePublish=async ()=>{
+        setIsPublish(true)
+
+        const userMessage = message.filter((mess)=> mess.role =="user" )
+        const prompt = userMessage[userMessage.length - 1].content
+
+
+        const appId = await shareApp({
+            generateCode:code,
+            prompt:prompt
+        })
+
+        setIsPublish(false)
+        toast.success(`This component has publish & copied to you clipboard. http://localhost:3000/publish/${appId}`)
+        navigator.clipboard.writeText(`http://localhost:3000/publish/${appId}`)
+    }
 
   return (
     <>
@@ -35,6 +62,10 @@ export default function Editor({
                 Preview
             </button>
         </div>
+
+        <Button variant={"secondary"} onClick={handlePublish}>
+            {isPublish? <>Publishing <Loader2 className="size-4 animate-spin" /></> : <>Publish<Share className="size-4" /></> } 
+        </Button>
     </div>
 
     
