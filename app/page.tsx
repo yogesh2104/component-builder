@@ -173,9 +173,6 @@ export default function Page() {
 
   if(!isMounted) return null
 
-  const handleToast=()=>{
-    toast.success("saadasdasd")
-  }
   return (
     <>
       <div className="min-h-screen flex justify-center items-center bg-gradient-to-br p-4 md:p-8">

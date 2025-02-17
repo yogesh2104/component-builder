@@ -5,6 +5,7 @@ import { Loader2, Share } from "lucide-react";
 import { useState } from "react";
 import { shareApp } from "@/app/action";
 import { toast } from "sonner";
+import { siteInfo } from "@/lib/site";
 const SyntaxHighlighter = dynamic(() => import("@/components/syntax-highlighter"),{ ssr: false });
 const CodeViewer = dynamic(() => import("@/components/code-viewer"),{ ssr: false });
 
@@ -38,8 +39,8 @@ export default function Editor({
         })
 
         setIsPublish(false)
-        toast.success(`This component has publish & copied to you clipboard. http://localhost:3000/publish/${appId}`)
-        navigator.clipboard.writeText(`http://localhost:3000/publish/${appId}`)
+        toast.success(`This component has publish & copied to you clipboard. ${siteInfo.domain}/${appId}`)
+        navigator.clipboard.writeText(`${siteInfo.domain}/${appId}`)
     }
 
   return (
