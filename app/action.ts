@@ -11,7 +11,7 @@ export async function shareApp({
     prompt:string
 }) {
     
-    let createApp = await db.componentBuild.create({
+    const createApp = await db.componentBuild.create({
         data:{
             code:generateCode,
             prompt:prompt,

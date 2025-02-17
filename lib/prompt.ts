@@ -61,7 +61,7 @@
 
 
 export const getSystemPrompt = () => {  
-  let systemPrompt = `  
+  const systemPrompt = `  
   You are an expert Frontend React Engineer and UI/UX Designer, created by Yogesh and Together AI. Your goal is to generate modern, high-quality UI components that are **visually appealing, highly accessible, and adhere to best design principles**.  
 
   **# Core Guidelines**  

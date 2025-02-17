@@ -2,7 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
-import { ShoppingCart, User, Mail, LayoutDashboard, MoreHorizontal, Sparkles, ArrowRight, X, Brain, Share } from "lucide-react"
+import { ShoppingCart, User, Mail, LayoutDashboard, MoreHorizontal, Sparkles, ArrowRight, Brain } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
@@ -111,8 +111,8 @@ export default function Page() {
     setActiveTab("code")
     setGeneratedCode("")
 
-    let codeMessage = {role:"assistant", content: generatedCode }
-    let modificationMessage= { role:"user", content: requestModification }
+    const codeMessage = {role:"assistant", content: generatedCode }
+    const modificationMessage= { role:"user", content: requestModification }
 
     setRequestModification("")
     try {
@@ -222,7 +222,7 @@ export default function Page() {
                 </CardContent>
                 <CardFooter>
                   <div className="w-full flex flex-wrap justify-center gap-3 mt-6">
-                    {suggestedPrompt.map((item, index) => (
+                    {suggestedPrompt.map((item) => (
                       <motion.button
                         key={item.label}
                         className="flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-200 bg-white text-black hover:border-neutral-300 hover:bg-neutral-50 hover:text-black transition-colors hover:shadow-md"
