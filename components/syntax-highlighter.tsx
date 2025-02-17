@@ -40,6 +40,6 @@ export default function SyntaxHighlighter({
   });
 
   return (
-    <div className="p-4 text-sm  overflow-y-auto bg-white" dangerouslySetInnerHTML={{ __html: html }} />
+    <div className="p-4 text-sm  overflow-y-auto bg-white h-[80vh] overflow-auto" dangerouslySetInnerHTML={{ __html: html }} />
   );
 }

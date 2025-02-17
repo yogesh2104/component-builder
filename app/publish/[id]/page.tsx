@@ -5,8 +5,8 @@ import Loading from "../loading";
 
 
 export default async function Page({ params }: { params: { id: string } }) {
-
-  const generatedApp = await getGeneratedAppByID(params.id);
+  const { id } = await params
+  const generatedApp = await getGeneratedAppByID(id);
 
   if (!generatedApp) {
     return <div>App not found</div>;

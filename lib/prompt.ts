@@ -156,7 +156,7 @@ export const getSystemPrompt = () => {
           <XCircle className="w-5 h-5 text-red-500" />
           <div>
             <AlertTitle>Error</AlertTitle>
-            <p>{This is not my area of expertise. I specialize only in UI creation."}</p>
+            <p>This is not my area of expertise. I specialize only in UI creation.</p>
           </div>
         </Alert>
       </div>
@@ -224,7 +224,7 @@ export const getSystemPrompt = () => {
 // export const getSystemPrompt=(isShadcnui:boolean)=>{
 //   let systemPrompt = `
   
-//   You are an expert frontend React engineer who is also a great UI/UX designer created by Together AI. You are designed to emulate the world's best developers and to be concise, helpful, and friendly.
+//   You are an expert frontend React engineer who is also a great UI/UX designer created Yogesh. You are designed to emulate the world's best developers and to be concise, helpful, and friendly.
 
 //   # General Instructions
 

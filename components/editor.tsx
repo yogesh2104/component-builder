@@ -44,7 +44,7 @@ export default function Editor({
 
   return (
     <>
-    <div className="flex h-16 shrink-0 items-center justify-between border-b border-gray-300">
+    <div className="flex h-16 shrink-0 items-center justify-between border-gray-300">
         <div className="rounded-sm border border-gray-300 p-1">
             <button
                 onClick={() => onTabChange("code")}
@@ -69,7 +69,7 @@ export default function Editor({
     </div>
 
     
-    <div className="flex grow flex-col overflow-y-auto bg-white">
+    <div className="flex grow flex-col overflow-y-auto bg-white rounded-xl">
         {activeTab === "code" ? (
         <div >
             <SyntaxHighlighter code={code} language={"typescript"} />
