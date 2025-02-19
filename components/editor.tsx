@@ -39,8 +39,8 @@ export default function Editor({
         })
 
         setIsPublish(false)
-        toast.success(`This component has publish & copied to you clipboard. ${siteInfo.domain}/${appId}`)
-        navigator.clipboard.writeText(`${siteInfo.domain}/${appId}`)
+        toast.success(`This component has publish & copied to you clipboard. ${siteInfo.domain}/publish/${appId}`)
+        navigator.clipboard.writeText(`${siteInfo.domain}/publish/${appId}`)
     }
 
   return (

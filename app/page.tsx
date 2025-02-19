@@ -255,24 +255,31 @@ export default function Page() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className="w-[70vw]"
+                className="w-[70vw] relative"
               >
 
+                <Editor 
+                  code={generatedCode}  
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+                  loading={loading}
+                  message={message}
+                />
                 <div className="">
-                  <form onSubmit={handleModify} className="mt-8">
+                  <form onSubmit={handleModify} className="mt-4 sticky bottom-0">
                     <div className="relative">
                       <Input
                         required
                         name="modification"
                         value={requestModification}
                         onChange={(e) => setRequestModification(e.target.value)}
-                        className="w-full pr-24 h-12 rounded-full"
+                        className="w-full pr-24 h-12 rounded-xl"
                         placeholder="Request modifications..."
                       />
                       <Button
                         type="submit"
                         variant={"destructive"}
-                        className="absolute right-1 top-1.5 rounded-full"
+                        className="absolute right-1 top-1.5 rounded-lg"
                         disabled={status === "updating"}
                       >
                         {status === "updating" ? (
@@ -295,13 +302,6 @@ export default function Page() {
                     </div>
                   </form>
                 </div>
-                <Editor 
-                  code={generatedCode}  
-                  activeTab={activeTab}
-                  onTabChange={setActiveTab}
-                  loading={loading}
-                  message={message}
-                />
               </motion.div>
               
             </>
