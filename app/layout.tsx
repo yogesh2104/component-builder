@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI-COmponent builder",
+  title: "AI-Component builder",
   description: "Created by Yogesh Singh",
 };
 
